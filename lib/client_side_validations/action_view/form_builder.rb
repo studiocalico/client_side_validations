@@ -43,7 +43,11 @@ module ClientSideValidations::ActionView::Helpers
     end
 
     def initialize_with_client_side_validations(object_name, object, template, options, proc=nil)
-      initialize_without_client_side_validations(object_name, object, template, options, proc)
+      if Rails::VERSION::MAJOR < 4
+        initialize_without_client_side_validations(object_name, object, template, options, proc)
+      else
+        initialize_without_client_side_validations(object_name, object, template, options)
+      end
       @options[:validators] = { object => {} }
     end
 
